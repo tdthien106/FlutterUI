@@ -1,3 +1,7 @@
+//import 'dart:html';
+
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -29,9 +33,9 @@ class MyApp extends StatelessWidget {
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: false,
+        useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Mới học Flutter nha'),
     );
   }
 }
@@ -70,56 +74,237 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
+      body: SafeArea(
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            row1(),
+            row2(),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
+
+Container row2() {
+  return Container(
+    margin: EdgeInsets.all(32),
+    padding: EdgeInsets.all(16),
+    decoration: BoxDecoration(
+      border: Border.all(
+        color: Colors.black,
+        width: 2,
+      ),
+      borderRadius: BorderRadius.circular(8),
+    ),
+    child: Column(
+      children: [
+        row21(),
+        row22(),
+        row23(),
+        row24(),
+      ],
+    ),
+  );
+}
+
+Row row24() {
+  return Row(
+    children: [
+      Expanded(
+        flex: 5,
+        child: Container(
+          color: Colors.orange,
+          height: 30,
+        ),
+      ),
+      Expanded(
+        flex: 5,
+        child: Container(
+          color: Colors.cyan,
+          height: 30,
+        ),
+      ),
+    ],
+  );
+}
+
+Row row23() {
+  return Row(
+    children: [
+      Expanded(
+        flex: 5,
+        child: Container(
+          color: Colors.black,
+          height: 30,
+        ),
+      ),
+      Expanded(
+        flex: 5,
+        child: Container(
+          color: Colors.red,
+          height: 30,
+        ),
+      ),
+    ],
+  );
+}
+
+Row row22() {
+  return Row(
+    children: [
+      Expanded(
+        flex: 5,
+        child: Container(
+          color: Colors.purple,
+          height: 30,
+        ),
+      ),
+      Expanded(
+        flex: 5,
+        child: Container(
+          color: Colors.yellow,
+          height: 30,
+        ),
+      ),
+    ],
+  );
+}
+
+Row row21() {
+  return Row(
+    children: [
+      Expanded(
+        flex: 9,
+        child: Container(
+          color: Colors.green,
+          height: 30,
+        ),
+      ),
+      Expanded(
+        flex: 1,
+        child: Container(
+          color: Colors.blue,
+          height: 30,
+        ),
+      ),
+    ],
+  );
+}
+
+Row row1() {
+  return Row(
+    children: [
+      Expanded(
+        flex: 1,
+        child: Container(
+          height: 60,
+          color: Colors.red,
+        ),
+      ),
+      Expanded(
+        flex: 6,
+        child: Container(
+          height: 60,
+          color: Colors.yellow,
+        ),
+      ),
+      Expanded(
+        flex: 1,
+        child: Container(
+          height: 60,
+          color: Colors.red,
+        ),
+      ),
+    ],
+  );
+}
+
+// Row row1() {
+//   return Row(
+//     children: [
+//       Expanded(
+//         flex: 2,
+//         child: Container(
+//           color: Colors.red,
+//           height: 120,
+//         ),
+//       ),
+//       Expanded(
+//         flex: 1,
+//         child: Container(
+//           color: Colors.green,
+//           height: 120,
+//         ),
+//       ),
+//       Expanded(
+//         flex: 2,
+//         child: Container(
+//           color: Colors.yellow,
+//           height: 120,
+//         ),
+//       ),
+//     ],
+//   );
+// }
+
+// Row row2() {
+//   return Row(
+//     children: [
+//       column1(),
+//       column2(),
+//       Expanded(
+//         child: Container(
+//           color: Colors.purple,
+//           height: 200,
+//         ),
+//       ),
+//     ],
+//   );
+// }
+
+// Column column1() {
+//   return Column(
+//     children: [
+//       Container(
+//         color: Colors.black,
+//         height: 100,
+//         width: 60,
+//       ),
+//       Container(
+//         color: Colors.yellow,
+//         height: 100,
+//         width: 60,
+//       ),
+//     ],
+//   );
+// }
+
+// Column column2() {
+//   return Column(
+//     children: [
+//       Container(
+//         color: Colors.white,
+//         width: 250,
+//         height: 50,
+//       ),
+//       Container(
+//         color: Colors.brown,
+//         width: 250,
+//         height: 50,
+//       ),
+//       Container(
+//         color: Colors.cyan,
+//         width: 250,
+//         height: 50,
+//       ),
+//       Container(
+//         color: Colors.red,
+//         width: 250,
+//         height: 50,
+//       )
+//     ],
+//   );
+// }
