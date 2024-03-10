@@ -1,7 +1,7 @@
 //import 'dart:html';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+//import 'package:flutter_svg/svg.dart';
 
 void main() => runApp(
       DevicePreview(
@@ -42,48 +42,321 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final int _counter = 0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.cyan,
-      appBar: AppBar(
-        backgroundColor: Colors.cyan,
-        title: const Text(
-          '10.82, 206.24',
-          style: TextStyle(color: Colors.white, fontSize: 16),
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/background.png'),
+            fit: BoxFit.cover,
+          ),
         ),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.only(right: 32),
-            child: Icon(
-              Icons.view_headline,
-              color: Colors.white,
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                _bar(),
+                const SizedBox(
+                  height: 32,
+                ),
+                _location(),
+                const SizedBox(
+                  height: 16,
+                ),
+                _state(),
+                const SizedBox(
+                  height: 16,
+                ),
+                _temperature(),
+                const SizedBox(
+                  height: 16,
+                ),
+                _getStatusData(),
+                const SizedBox(
+                  height: 16,
+                ),
+                _getWeatherData(),
+                const SizedBox(
+                  height: 16,
+                ),
+                _forecast(),
+                const SizedBox(
+                  height: 16,
+                ),
+              ],
             ),
           ),
-        ],
-      ),
-      body: Column(
-        children: [
-          _buildWeatherIndex(),
-        ],
+        ),
       ),
     );
   }
 }
 
-Container _buildWeatherIndex() {
+class ForecastData {
+  final String time;
+  final String image;
+  final String temperature;
+
+  const ForecastData({
+    required this.time,
+    required this.image,
+    required this.temperature,
+  });
+}
+
+Widget _buildForecast(ForecastData data) {
+  return Column(
+    children: [
+      Text(
+        data.time,
+        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+      ),
+      Image.asset(
+        data.image,
+        width: 24,
+        height: 23.5,
+      ),
+      Text(data.temperature),
+    ],
+  );
+}
+
+Container _forecast() {
+  final List<ForecastData> forecastData = [
+    const ForecastData(
+      time: '0 AM',
+      image: 'assets/images/snow.png',
+      temperature: '32°C',
+    ),
+    const ForecastData(
+      time: '1 AM',
+      image: 'assets/images/snow.png',
+      temperature: '32°C',
+    ),
+    const ForecastData(
+      time: '2 AM',
+      image: 'assets/images/snow.png',
+      temperature: '32°C',
+    ),
+    const ForecastData(
+      time: '3 AM',
+      image: 'assets/images/snow.png',
+      temperature: '32°C',
+    ),
+  ];
   return Container(
-    child: const Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    width: 380,
+    padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+    decoration: BoxDecoration(
+      color: Colors.black.withOpacity(0.4),
+      borderRadius: BorderRadius.circular(8),
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Column(
+        const Row(
           children: [
-            //weatherIndex(),
+            Icon(
+              Icons.wb_sunny,
+              color: Colors.white,
+              size: 16,
+            ),
+            Text(' FORECAST'),
+          ],
+        ),
+        const SizedBox(
+          height: 4,
+        ),
+        const Divider(
+          height: 1,
+        ),
+        const SizedBox(
+          height: 8,
+        ),
+        const Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Max: 36.4°C',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
+            ),
+            Text(
+              'Min: 22.1°C',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
+            ),
+          ],
+        ),
+        const SizedBox(
+          height: 8,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            for (final item in forecastData) ...{_buildForecast(item)}
           ],
         ),
       ],
     ),
+  );
+}
+
+class _WeatherData {
+  final String text;
+  final double value;
+  final String unit;
+
+  const _WeatherData(this.text, this.value, this.unit);
+}
+
+Widget _buildWeatherItem(_WeatherData data) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Text(
+        data.text,
+        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+      ),
+      const SizedBox(
+        width: 10,
+      ),
+      Row(
+        children: [
+          Text(
+            data.value.toString(),
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+          ),
+          Text(
+            data.unit,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+          ),
+        ],
+      ),
+    ],
+  );
+}
+
+Container _getWeatherData() {
+  final List<_WeatherData> leftColumnData = [
+    const _WeatherData('Humidity ', 40.0, '%'),
+    const _WeatherData('PM10 ', 33.4, 'µg/m³'),
+    const _WeatherData('UV ', 2.2, ''),
+  ];
+
+  final List<_WeatherData> rightColumnData = [
+    const _WeatherData('Wind ', 2.0, 'km/h'),
+    const _WeatherData('Sunrise', 6.35, 'AM'),
+    const _WeatherData('Sunset ', 5.55, 'PM'),
+  ];
+  return Container(
+    padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+    width: 380,
+    decoration: BoxDecoration(
+      color: Colors.black.withOpacity(0.4),
+      borderRadius: BorderRadius.circular(8),
+    ),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              for (final item in leftColumnData) ...[
+                //Xử lý spacing
+                _buildWeatherItem(item),
+                const SizedBox(
+                  height: 20,
+                ),
+                //...leftColumnData.map(_buildWeatherItem).toList(), //Khi in ra các text không cách dòng
+              ],
+            ],
+          ),
+        ),
+        const SizedBox(
+          width: 10,
+        ),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              //...rightColumnData.map(_buildWeatherItem).toList(), //Khi in ra các text không cách dòng
+              for (final item in rightColumnData) ...[
+                //Xử lý spacing
+                _buildWeatherItem(item),
+                const SizedBox(
+                  height: 20,
+                ),
+              ],
+            ],
+          ),
+        )
+      ],
+    ), // Khoảng cách giữa hai cột
+  );
+}
+
+Container _getStatusData() {
+  return Container(
+    height: 100,
+    width: 358,
+    padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
+    child: const Text(
+      'Duststorm, sandstorm, drifting or blowing snow',
+      style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+      textAlign: TextAlign.center,
+    ),
+  );
+}
+
+Text _temperature() {
+  return const Text(
+    '32°C',
+    style: TextStyle(fontSize: 64, fontWeight: FontWeight.w700),
+  );
+}
+
+Column _state() {
+  return Column(
+    children: [
+      Image.asset('assets/images/image 2.png', height: 120, width: 120),
+      const SizedBox(
+        height: 8,
+      ),
+      const Text(
+        'Soft light',
+        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+      ),
+    ],
+  );
+}
+
+Row _location() {
+  return const Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Text(
+        'Ho Chi Minh City',
+        style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
+      ),
+    ],
+  );
+}
+
+Row _bar() {
+  return const Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Text('      '),
+      Text(
+        '10.82, 206.24',
+        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+      ),
+      Icon(
+        Icons.menu,
+        color: Colors.white,
+      ),
+    ],
   );
 }
 
